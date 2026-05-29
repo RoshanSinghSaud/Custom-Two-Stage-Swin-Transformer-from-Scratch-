@@ -28,7 +28,7 @@ The pipeline processes input images through a hierarchical structure, altering s
 
 Input Image: (B, 1, 28, 28)
      │
-[Patch Embedding] ──► Reduces spatial resolution by 2x via 2x2 convolutions
+[Patch Embedding] ──► Reduces spatial resolution by 2x via 2x2 convolutions    
      │
      ▼
 STAGE 1: Feature Maps (B, 14, 14, 48)

@@ -1,0 +1,22 @@
+📊 Feature Map Tensor Flow
+The pipeline processes input images through a hierarchical structure, altering shapes across the two main stages:
+
+Input Image: (B, 1, 28, 28)
+     │
+[Patch Embedding] ──► Reduces spatial resolution by 2x via 2x2 convolutions    
+     │
+     ▼
+STAGE 1: Feature Maps (B, 14, 14, 48)
+     ├── Block 1: Regular Window Attention (W-MSA) ──► win=7, shift=0
+     └── Block 2: Shifted Window Attention (SW-MSA) ──► win=7, shift=3
+     │
+     ▼
+[Patch Merging] ──► Downsamples resolution 2x by concatenating 2x2 grid neighbors (B, 7, 7, 192)
+     │              Linear projection layer squeezes channels back down to 96
+     ▼
+STAGE 2: Feature Maps (B, 7, 7, 96)
+     ├── Block 3: Regular Window Attention (W-MSA) ──► win=3, shift=0 (Padded to 9x9)
+     └── Block 4: Shifted Window Attention (SW-MSA) ──► win=3, shift=1 (Padded to 9x9)
+     │
+     ▼
+[Global Average Pooling] ──► Linear Head Classifier ──► Output Logits (B, 10)
